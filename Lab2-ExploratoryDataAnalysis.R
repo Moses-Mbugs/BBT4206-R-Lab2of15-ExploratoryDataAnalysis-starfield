@@ -1,6 +1,6 @@
 # *****************************************************************************
 # Lab 2: Exploratory Data Analysis ----
-#
+#Niaje joh!
 # Course Code: BBT4206
 # Course Name: Business Intelligence II
 # Semester Duration: 21st August 2023 to 28th November 2023
