@@ -1,6 +1,6 @@
 # *****************************************************************************
 # Lab 2: Exploratory Data Analysis ----
-#
+# Niaje joh!
 # Course Code: BBT4206
 # Course Name: Business Intelligence II
 # Semester Duration: 21st August 2023 to 28th November 2023
@@ -26,6 +26,7 @@
 #   Summary: https://rstudio.github.io/renv/
 #   More detailed article: https://rstudio.github.io/renv/articles/renv.html
 
+# class attempt
 # Install renv:
 if (!is.element("renv", installed.packages()[, 1])) {
   install.packages("renv", dependencies = TRUE)
