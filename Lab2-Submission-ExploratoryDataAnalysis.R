@@ -1,6 +1,6 @@
 # *****************************************************************************
 # Lab 2: Exploratory Data Analysis ----
-
+#
 # Course Code: BBT4206
 # Course Name: Business Intelligence II
 # Semester Duration: 21st August 2023 to 28th November 2023
@@ -11,8 +11,6 @@
 # Note: The lecture contains both theory and practice. This file forms part of
 #       the practice. It has required lab work submissions that are graded for
 #       coursework marks.
-#
-
 #
 # License: GNU GPL-3.0-or-later
 # See LICENSE file for licensing information.
@@ -28,7 +26,6 @@
 #   Summary: https://rstudio.github.io/renv/
 #   More detailed article: https://rstudio.github.io/renv/articles/renv.html
 
-# class attempt
 # Install renv:
 if (!is.element("renv", installed.packages()[, 1])) {
   install.packages("renv", dependencies = TRUE)
@@ -89,38 +86,14 @@ require("languageserver")
 ## STEP 2: Download sample datasets ----
 # Create a folder called "data" and store the following 2 files inside the
 # "data" folder:
-## Link 1 (save the file as "iris.data"):
-# https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
-## Link 2 ("crop.data.csv"):
-# https://cdn.scribbr.com/wp-content/uploads/2020/03/crop.data_.anova_.zip
-# Extract the "crop.data.csv" file into the data folder
+
 
 ## STEP 3. Load the downloaded sample datasets ----
 # Load the datasets
-iris_dataset <- read.csv("data/iris.data", header = FALSE,
-                         stringsAsFactors = TRUE)
+library(readr)
+X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset <- read_csv("data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset - dataset.csv")
+View(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset)
 
-# The following code (optional) can be used to name the attributes in the
-# iris_dataset:
-
-# names(iris_dataset) <- c("sepal length in cm", "sepal width in cm",
-#                          "petal length in cm", "petal width in cm", "class")
-
-if (!is.element("readr", installed.packages()[, 1])) {
-  install.packages("readr", dependencies = TRUE)
-}
-require("readr")
-
-crop_dataset <- read_csv(
-  "data/crop.data.csv",
-  col_types = cols(
-    density = col_factor(levels = c("1", "2")),
-    block = col_factor(levels = c("1", "2", "3", "4")),
-    fertilizer = col_factor(levels = c("1", "2", "3")),
-    yield = col_double()
-  )
-)
-View(crop_dataset)
 
 ## STEP 4. Load sample datasets that are provided as part of a package ----
 if (!is.element("mlbench", installed.packages()[, 1])) {
@@ -128,8 +101,6 @@ if (!is.element("mlbench", installed.packages()[, 1])) {
 }
 require("mlbench")
 
-data("PimaIndiansDiabetes")
-data("BostonHousing")
 
 # Dimensions ----
 ## STEP 5. Preview the Loaded Datasets ----
@@ -137,10 +108,8 @@ data("BostonHousing")
 # attributes/variables/features (columns). Execute the following commands to
 # display the dimensions of your datasets:
 
-dim(BostonHousing)
-dim(crop_dataset)
-dim(iris_dataset)
-dim(PimaIndiansDiabetes)
+dim(StudentPerformanceDataset)
+
 
 # Data Types ----
 ## STEP 6. Identify the Data Types ----
@@ -149,10 +118,8 @@ dim(PimaIndiansDiabetes)
 # to identify the need to convert from categorical data (factors) to integers
 # or vice versa where necessary. Execute the following command to identify the
 # data types:
-sapply(BostonHousing, class)
-sapply(crop_dataset, class)
-sapply(iris_dataset, class)
-sapply(PimaIndiansDiabetes, class)
+sapply(StudentPerformanceDataset, class)
+
 
 # Descriptive Statistics ----
 
@@ -198,63 +165,47 @@ sapply(PimaIndiansDiabetes, class)
 # It is more sensible to count categorical variables (factors or dimensions)
 # than numeric variables, e.g., counting the number of male and female
 # participants instead of counting the frequency of each participant’s height.
-boston_housing_freq <- BostonHousing$chas
-cbind(frequency = table(boston_housing_freq),
-      percentage = prop.table(table(boston_housing_freq)) * 100)
+StudentPerfomanceDataset_freq <- StudentPerformanceDataset$goal_oriented
+cbind(frequency = table(StudentPerfomanceDataset_freq),
+      percentage = prop.table(table(StudentPerfomanceDataset_freq)) * 100)
 
-crop_dataset_density_freq <- crop_dataset$density
-cbind(frequency = table(crop_dataset_density_freq),
-      percentage = prop.table(table(crop_dataset_density_freq)) * 100)
+StudentPerfomanceDataset_freq <- StudentPerformanceDataset$internet
+cbind(frequency = table(StudentPerfomanceDataset_freq),
+      percentage = prop.table(table(StudentPerfomanceDataset_freq)) * 100)
 
-crop_dataset_block_freq <- crop_dataset$block
-cbind(frequency = table(crop_dataset_block_freq),
-      percentage = prop.table(table(crop_dataset_block_freq)) * 100)
 
-crop_dataset_fertilizer_freq <- crop_dataset$fertilizer
-cbind(frequency = table(crop_dataset_fertilizer_freq),
-      percentage = prop.table(table(crop_dataset_fertilizer_freq)) * 100)
+StudentPerfomanceDataset_freq <- StudentPerformanceDataset$mentor
+cbind(frequency = table(StudentPerfomanceDataset_freq),
+      percentage = prop.table(table(StudentPerfomanceDataset_freq)) * 100)
 
-iris_dataset_freq <- iris_dataset$V5
-cbind(frequency = table(iris_dataset_freq),
-      percentage = prop.table(table(iris_dataset_freq)) * 100)
-
-pima_indians_diabetes_freq <- PimaIndiansDiabetes$diabetes
-cbind(frequency = table(pima_indians_diabetes_freq),
-      percentage = prop.table(table(pima_indians_diabetes_freq)) * 100)
 
 ## Measures of Central Tendency ----
 ### STEP 8. Calculate the mode ----
 # Unfortunately, R does not have an in-built function for calculating the mode.
 # We, therefore, must manually create a function that can calculate the mode.
 
-boston_housing_chas_mode <- names(table(BostonHousing$chas))[
-  which(table(BostonHousing$chas) == max(table(BostonHousing$chas)))
+StudentPerfomanceDataset_mode <- names(table(StudentPerformanceDataset$goal_oriented))[
+  which(table(StudentPerformanceDataset$goal_oriented) == max(table(StudentPerformanceDataset$goal_oriented)))
 ]
-print(boston_housing_chas_mode)
+print(StudentPerfomanceDataset_mode)
 
-crop_dataset_fertilizer_mode <- names(table(crop_dataset$fertilizer))[
-  which(table(crop_dataset$fertilizer) == max(table(crop_dataset$fertilizer)))
+StudentPerfomanceDataset_mode <- names(table(StudentPerformanceDataset$internet))[
+  which(table(StudentPerformanceDataset$internet) == max(table(StudentPerformanceDataset$internet)))
 ]
-print(crop_dataset_fertilizer_mode)
+print(StudentPerfomanceDataset_mode)
 
-iris_dataset_mode <- names(table(iris_dataset$V5))[
-  which(table(iris_dataset$V5) == max(table(iris_dataset$V5)))
-]
-print(iris_dataset_mode)
 
-pima_indians_diabetes_mode <- names(table(PimaIndiansDiabetes$diabetes))[
-  which(table(PimaIndiansDiabetes$diabetes) ==
-          max(table(PimaIndiansDiabetes$diabetes)))
+StudentPerfomanceDataset_mode <- names(table(StudentPerformanceDataset$mentor))[
+  which(table(StudentPerformanceDataset$mentor) == max(table(StudentPerformanceDataset$mentor)))
 ]
-print(pima_indians_diabetes_mode)
+print(StudentPerfomanceDataset_mode)
+
 
 ## Measures of Distribution/Dispersion/Spread/Scatter/Variability ----
 
 ### STEP 9. Measure the distribution of the data for each variable ----
-summary(BostonHousing)
-summary(crop_dataset)
-summary(iris_dataset)
-summary(PimaIndiansDiabetes)
+summary(StudentPerformanceDataset)
+
 
 ### STEP 10. Measure the standard deviation of each variable ----
 # Measuring the variability in the dataset is important because the amount of
@@ -275,8 +226,8 @@ summary(PimaIndiansDiabetes)
 # leaving out the columns termed as “factors” (categorical) or those that have
 # a string data type.
 
-sapply(BostonHousing[, -4], sd)
-sapply(BostonHousing[, c(1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)], sd)
+sapply(StudentPerformanceDataset[, -2, -1, -4, -5, -3, -6, -7, -8, -9, -10, -11, -12, -13, -14, -15, -16, -17, -18, -19, -20, -21, -22, -23,-24,-25,-26,-27,-28, -29, -30, -31, -32, -33, -36, -37, -38, -39, -40, -41, -42, -43, -44, -45, -46, -47, -48, -49, -50], sd)
+
 
 # The data type of "yield" should be double (not numeric) so that it can be
 # calculated.
@@ -525,7 +476,7 @@ summary(crop_dataset_interactive_two_way_anova)
 # Execute the following to add the “block” variable:
 crop_dataset_interactive_two_way_anova_with_block <- aov(yield ~ # nolint
                                                            fertilizer + density
-                                                           + block,
+                                                         + block,
                                                          data = crop_dataset)
 summary(crop_dataset_interactive_two_way_anova_with_block)
 
