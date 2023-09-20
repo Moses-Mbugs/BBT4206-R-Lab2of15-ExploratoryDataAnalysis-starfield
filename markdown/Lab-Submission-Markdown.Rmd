@@ -140,6 +140,7 @@ student_performance_dataset <-
                  col_factor(levels = c("0", "1")),
                GRADE = col_factor(levels = c("A", "B", "C", "D", "E"))),
            locale = locale())
+View(student_performance_dataset)
 ```
 
 
