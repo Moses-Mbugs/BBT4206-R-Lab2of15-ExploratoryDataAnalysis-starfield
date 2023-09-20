@@ -780,7 +780,7 @@
     },
     "knitr": {
       "Package": "knitr",
-      "Version": "1.43",
+      "Version": "1.44",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -792,7 +792,7 @@
         "xfun",
         "yaml"
       ],
-      "Hash": "9775eb076713f627c07ce41d8199d8f6"
+      "Hash": "60885b9f746c9dfaef110d070b5f7dc0"
     },
     "labeling": {
       "Package": "labeling",
@@ -957,6 +957,7 @@
         "utils"
       ],
       "Hash": "3460beba7ccc8946249ba35327ba902a"
+
     },
     "mlbench": {
       "Package": "mlbench",
