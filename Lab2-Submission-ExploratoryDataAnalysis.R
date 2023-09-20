@@ -90,7 +90,7 @@ require("languageserver")
 
 ## STEP 3. Load the downloaded sample datasets ----
 # Load the datasets
-library(readr)
+library(readr) 
 X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset <- read_csv("data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset - dataset.csv")
 View(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset)
 
