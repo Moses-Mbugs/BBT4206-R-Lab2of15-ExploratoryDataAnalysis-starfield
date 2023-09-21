@@ -170,7 +170,7 @@ Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$mentor
 cbind(frequency = table(Student_Perfomance_Dataset_freq),
       percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
 
-Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset_dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`
+Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`
 cbind(frequency = table(Student_Perfomance_Dataset_freq),
       percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
 
@@ -242,10 +242,8 @@ if (!is.element("e1071", installed.packages()[, 1])) {
 }
 require("e1071")
 
-sapply(BostonHousing[, -4],  kurtosis, type = 2)
-sapply(crop_dataset[, 4],  kurtosis, type = 2)
-sapply(iris_dataset[, 1:4],  kurtosis, type = 2)
-sapply(PimaIndiansDiabetes[, 1:8],  kurtosis, type = 2)
+sapply(Student_Perfomance_Dataset[, 26],  kurtosis, type = 2)
+
 
 ### STEP 13. Measure the skewness of each variable ----
 
@@ -259,48 +257,23 @@ sapply(PimaIndiansDiabetes[, 1:8],  kurtosis, type = 2)
 # 2.	Skewness above 0.4 implies a positive skew; a right-skewed distribution.
 # 3.	Skewness below -0.4 implies a negative skew; a left-skewed distribution.
 
-sapply(BostonHousing[, -4],  skewness, type = 2)
-sapply(crop_dataset[, 4],  skewness, type = 2)
-sapply(iris_dataset[, 1:4],  skewness, type = 2)
-sapply(PimaIndiansDiabetes[, 1:8],  skewness, type = 2)
+sapply(Student_Perfomance_Dataset[, 26],  skewness, type = 2)
 
-# Note, executing:
-# skewness(BostonHousing$crim, type=2) # nolint
-# computes the skewness for one variable called “crim” in the BostonHousing
-# dataset. However, executing the following enables you to compute the skewness
-# for all the variables in the “BostonHousing” dataset except variable number 4:
 
-# sapply(BostonHousing[,-4],  skewness, type = 2) # nolint
 
 ## Measures of Relationship ----
 
 ## STEP 14. Measure the covariance between variables ----
 # Note that the covariance and the correlation are computed for numeric values
 # only, not categorical values.
-boston_housing_cov <- cov(BostonHousing[, -4])
-View(boston_housing_cov)
+Student_Perfomance_Dataset_cov <- cov(Student_Perfomance_Dataset[, -27])
+View(Student_Perfomance_Dataset_cov)
 
-crop_dataset_cov <- cov(crop_dataset[, 4])
-View(crop_dataset_cov)
-
-iris_dataset_cov <- cov(iris_dataset[, 1:4])
-View(iris_dataset_cov)
-
-pima_indians_diabetes_cov <- cov(PimaIndiansDiabetes[, 1:8])
-View(pima_indians_diabetes_cov)
 
 ## STEP 15. Measure the correlation between variables ----
-boston_housing_cor <- cor(BostonHousing[, -4])
-View(boston_housing_cor)
+Student_Perfomance_Dataset_cor <- cor(Student_Perfomance_Dataset [, c(1, 23, 26)])
+View(Student_Perfomance_Dataset)
 
-crop_dataset_cor <- cor(crop_dataset[, 4])
-View(crop_dataset_cor)
-
-iris_dataset_cor <- cor(iris_dataset[, 1:4])
-View(iris_dataset_cor)
-
-pima_indians_diabetes_cor <- cor(PimaIndiansDiabetes[, 1:8])
-View(pima_indians_diabetes_cor)
 
 # Inferential Statistics ----
 # Read the following article:
@@ -362,114 +335,16 @@ View(pima_indians_diabetes_cor)
 # found a particular set of observations if the null hypothesis were true. The
 # smaller the p-value, the more likely you are to reject the null-hypothesis.
 
-# The “crop_dataset” sample dataset loaded in STEP 4 contains observations from
-# an imaginary study of the effects of fertilizer type and planting density on
-# crop yield. In other words:
 
-# Dependent variable:	Crop yield
-# Independent variables:	Fertilizer type, planting density, and block
+# Dependent variable:	GRADE
+# Independent variables:	gender
 
-# The features (attributes) are:
-# 1.	density: planting density (1 = low density, 2 = high density)
-# 2.	block: planting location in the field (blocks 1, 2, 3, or 4)
-# 3.	fertilizer: fertilizer type (type 1, 2, or 3)
-# 4.	final crop yield (in bushels per acre)
 
-# One-Way ANOVA can be used to test the effect of the 3 types of fertilizer on
-# crop yield whereas,
-# Two-Way ANOVA can be used to test the effect of the 3 types of fertilizer and
-# the 2 types of planting density on crop yield.
-crop_dataset_one_way_anova <- aov(yield ~ fertilizer, data = crop_dataset)
-summary(crop_dataset_one_way_anova)
+Student_Perfomance_Dataset_one_way_anova <- aov(gender ~ GRADE, data = Student_Perfomance_Dataset)
+summary(Student_Perfomance_Dataset_one_way_anova)
 
-# This shows the result of each variable and the residual. The residual refers
-# to all the variation that is not explained by the independent variable. The
-# list below is a description of each column in the result:
 
-# 1.  Df column: Displays the degrees of freedom for the independent variable
-#           (the number of levels (categories) in the variable minus 1),
-#           and the degrees of freedom for the residuals (the total
-#           number of observations minus the number of variables being
-#           estimated + 1, i.e., (df(Residuals)=n-(k+1)).
 
-# 2.	Sum Sq column: Displays the sum of squares (a.k.a. the total variation
-#           between the group means and the overall mean). It is better to have
-#           a lower Sum Sq value for residuals.
-
-# 3.  Mean Sq column: The mean of the sum of squares, calculated by dividing
-#           the sum of squares by the degrees of freedom for each parameter.
-
-# 4.	F value column: The test statistic from the F test. This is the mean
-#           square of each independent variable divided by the mean square of
-#           the residuals. The larger the F value, the more likely it is that
-#           the variation caused by the independent variable is real and not
-#           due to chance.
-
-# 5.	Pr(>F) column: The p-value of the F statistic. This shows how likely it
-#           is that the F value calculated from the test would have occurred if
-#           the null hypothesis of “no difference among group means” were true.
-
-# The three asterisk symbols (***) implies that the p-value is less than 0.001.
-# P<0.001 can be interpreted as “the type of fertilizer used has an impact on
-# the final crop yield”.
-
-# We can also have a situation where the final crop yield depends not only on
-# the type of fertilizer used but also on the planting density. A two-way ANOVA
-# can then be used to confirm this. Execute the following for a two-way ANOVA
-# (two independent variables):
-
-crop_dataset_additive_two_way_anova <- aov(yield ~ fertilizer + density, # nolint
-                                           data = crop_dataset)
-summary(crop_dataset_additive_two_way_anova)
-
-# Specifying an asterisk (*) instead of a plus (+) between the two independent
-# variables (fertilizer * density) implies that they have an interaction effect
-# rather than an additive effect.
-
-# For example, an interaction effect would be that the fertilizer uptake by
-# plants is affected by how close the plants are planted (density). An additive
-# effect would be that the fertilizer uptake by plants is NOT affected by how
-# close the plants are planted (density).
-
-# Execute the following to perform a two-way ANOVA with the assumption that
-# fertilizer and density have an interaction effect:
-
-crop_dataset_interactive_two_way_anova <- aov(yield ~ fertilizer * density, # nolint
-                                              data = crop_dataset)
-summary(crop_dataset_interactive_two_way_anova)
-
-# This can be interpreted as follows:
-# The additive two-way ANOVA shows that the crop yield is affected by both the
-# fertilizer and the density (P<0.001 for both independent variables).
-# The interactive two-way ANOVA also shows that the crop yield is affected by
-# both the fertilizer and the density (P<0.001 for both independent variables).
-# However, the “fertilizer:density” variable has a high p-value (p=0.532500)
-# which implies that there is not much variation in the dependent variable
-# (final crop yield) that can be explained by the interaction between the
-# independent variables (fertilizer and density).
-
-# An ANOVA can also be performed on the variable called “block”. The “block”
-# variable specifies the planting location in the field (blocks 1, 2, 3, or 4).
-# Different blocks can have different control measures enforced to reduce the
-# influence of confounding variables, e.g., temperature, water, soil quality,
-# and plant species. This is common practice in research to ensure that the
-# change in the dependent variable is correlated with the independent variable
-# and not other variables that are not part of the research.
-
-# Execute the following to add the “block” variable:
-crop_dataset_interactive_two_way_anova_with_block <- aov(yield ~ # nolint
-                                                           fertilizer + density
-                                                         + block,
-                                                         data = crop_dataset)
-summary(crop_dataset_interactive_two_way_anova_with_block)
-
-# This can be interpreted as follows:
-# The additive two-way ANOVA shows that the crop yield is affected by both the
-# fertilizer and the density (P<0.001 for both independent variables). However,
-# the block variable has a high p-value (p=0.488329) which implies that there
-# is not much variation in the dependent variable (final crop yield) that can
-# be explained by the “block” variable (the different blocks used to plant the
-# crops).
 
 # Qualitative Data Analysis ----
 # This can be done through either

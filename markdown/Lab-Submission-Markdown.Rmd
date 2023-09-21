@@ -126,6 +126,7 @@ standard_deviations <- sapply(numeric_columns, sd)
 print(standard_deviations)
 ```
 
+
 ```{r Your Third Code Chunk- Used to calculate the variance of each variable}
 library(readr)
 numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
@@ -133,4 +134,36 @@ variances <- sapply(numeric_columns, var)
 print(variances)
 
 ```
-**etc.** as per the lab submission requirements.
+
+
+```{r code chunk - Used to install kurosis packages and calculate Kurotis}
+if (!is.element("e1071", installed.packages()[, 1])) {
+  install.packages("e1071", dependencies = TRUE)
+}
+require("e1071")
+
+sapply(Student_Perfomance_Dataset[, 26],  kurtosis, type = 2)
+```
+
+
+```{r code chunk - Used to calculate skweness}
+sapply(Student_Perfomance_Dataset[, 26],  skewness, type = 2)
+```
+
+
+```{r code chunk - Used to calculate covarinace}
+Student_Perfomance_Dataset_cov <- cov(Student_Perfomance_Dataset[, -27])
+View(Student_Perfomance_Dataset_cov)
+```
+
+
+```{r code chunk - Used to calculate correlation}
+Student_Perfomance_Dataset_cor <- cor(Student_Perfomance_Dataset [, c(1, 23, 26)])
+View(Student_Perfomance_Dataset)
+```
+
+
+```{r code chunk - Used to calculate One-way ANOVA}
+Student_Perfomance_Dataset_one_way_anova <- aov(gender ~ GRADE, data = Student_Perfomance_Dataset)
+summary(Student_Perfomance_Dataset_one_way_anova)
+```
