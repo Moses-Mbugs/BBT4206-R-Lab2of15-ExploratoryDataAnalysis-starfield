@@ -143,7 +143,6 @@ student_performance_dataset <-
 View(student_performance_dataset)
 ```
 
-
 ```{r Your Second Code Chunk}
 # Fill this with R related code that will be executed when the R markdown file
 # is rendered using knitR
