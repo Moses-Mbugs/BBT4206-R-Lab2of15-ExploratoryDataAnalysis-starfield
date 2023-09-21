@@ -166,18 +166,14 @@ sapply(Student_Perfomance_Dataset, class)
 # It is more sensible to count categorical variables (factors or dimensions)
 # than numeric variables, e.g., counting the number of male and female
 # participants instead of counting the frequency of each participant’s height.
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq <- StudentPerformanceDataset$goal_oriented
-cbind(frequency = table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq),
-      percentage = prop.table(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq)) * 100)
+Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$mentor
+cbind(frequency = table(Student_Perfomance_Dataset_freq),
+      percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
 
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$internet
-cbind(frequency = table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq),
-      percentage = prop.table(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq)) * 100)
+Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset_dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`
+cbind(frequency = table(Student_Perfomance_Dataset_freq),
+      percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
 
-
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$mentor
-cbind(frequency = table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq),
-      percentage = prop.table(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_freq)) * 100)
 
 
 ## Measures of Central Tendency ----
@@ -185,33 +181,28 @@ cbind(frequency = table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset
 # Unfortunately, R does not have an in-built function for calculating the mode.
 # We, therefore, must manually create a function that can calculate the mode.
 
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode <- names(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$goal_oriented))[
-  which(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$goal_oriented) == max(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$goal_oriented)))
+Student_Perfomance_Dataset_mode <- names(table(Student_Perfomance_Dataset$mentor))[
+  which(table(Student_Perfomance_Dataset$mentor) == max(table(Student_Perfomance_Dataset$mentor)))
 ]
-print(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode)
+print(Student_Perfomance_Dataset_mode)
 
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode <- names(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$internet))[
-  which(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$internet) == max(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$internet)))
+Student_Perfomance_Dataset_mode <- names(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`))[
+  which(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`) == max(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`)))
 ]
-print(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode)
+print(Student_Perfomance_Dataset_mode)
 
-
-X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode <- names(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$mentor))[
-  which(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$mentor) == max(table(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset$mentor)))
-]
-print(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode)
 
 
 ## Measures of Distribution/Dispersion/Spread/Scatter/Variability ----
 
 ### STEP 9. Measure the distribution of the data for each variable ----
-summary(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset)
+summary(Student_Perfomance_Dataset)
 
 
 # Step 10. Measure the standard deviation of each numeric variable while excluding non-numeric columns (factors and strings)
 
 # Filter out the numeric columns
-numeric_columns <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset[, sapply(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset, is.numeric)]
+numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
 
 # Calculate the standard deviation for each numeric column
 standard_deviations <- sapply(numeric_columns, sd)
@@ -224,7 +215,7 @@ print(standard_deviations)
 
 
 # Filter out the numeric columns
-numeric_columns <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset[, sapply(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset, is.numeric)]
+numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
 
 # Calculate the variance for each numeric column
 variances <- sapply(numeric_columns, var)

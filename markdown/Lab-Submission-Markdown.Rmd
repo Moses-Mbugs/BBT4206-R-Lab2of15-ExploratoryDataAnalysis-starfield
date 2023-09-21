@@ -64,105 +64,73 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE,
 
 Describe the code chunk here:
 
-```{r Your Second Code Chunk}
-student_performance_dataset <-
-  read_csv("data/20230412-20230719-BI1-BBIT4-1-StudentPerformanceDataset.CSV",
-           col_types =
-             cols(
-               class_group = col_factor(levels = c("A", "B", "C")),
-               gender = col_factor(levels = c("1", "0")),
-               YOB = col_date(format = "%Y"),
-               regret_choosing_bi = col_factor(levels = c("1", "0")),
-               drop_bi_now = col_factor(levels = c("1", "0")),
-               motivator = col_factor(levels = c("1", "0")),
-               read_content_before_lecture =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               anticipate_test_questions =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               answer_rhetorical_questions =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               find_terms_I_do_not_know =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               copy_new_terms_in_reading_notebook =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               take_quizzes_and_use_results =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               reorganise_course_outline =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               write_down_important_points =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               space_out_revision =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               studying_in_study_group =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               schedule_appointments =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               goal_oriented = col_factor(levels = c("1", "0")),
-               spaced_repetition =
-                 col_factor(levels = c("1", "2", "3", "4")),
-               testing_and_active_recall =
-                 col_factor(levels = c("1", "2", "3", "4")),
-               interleaving = col_factor(levels = c("1", "2", "3", "4")),
-               categorizing = col_factor(levels = c("1", "2", "3", "4")),
-               retrospective_timetable =
-                 col_factor(levels = c("1", "2", "3", "4")),
-               cornell_notes = col_factor(levels = c("1", "2", "3", "4")),
-               sq3r = col_factor(levels = c("1", "2", "3", "4")),
-               commute = col_factor(levels = c("1", "2", "3", "4")),
-               study_time = col_factor(levels = c("1", "2", "3", "4")),
-               repeats_since_Y1 = col_integer(),
-               paid_tuition = col_factor(levels = c("0", "1")),
-               free_tuition = col_factor(levels = c("0", "1")),
-               extra_curricular = col_factor(levels = c("0", "1")),
-               sports_extra_curricular = col_factor(levels = c("0", "1")),
-               exercise_per_week = col_factor(levels = c("0", "1", "2", "3")),
-               meditate = col_factor(levels = c("0", "1", "2", "3")),
-               pray = col_factor(levels = c("0", "1", "2", "3")),
-               internet = col_factor(levels = c("0", "1")),
-               laptop = col_factor(levels = c("0", "1")),
-               family_relationships =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               friendships = col_factor(levels = c("1", "2", "3", "4", "5")),
-               romantic_relationships =
-                 col_factor(levels = c("0", "1", "2", "3", "4")),
-               spiritual_wellnes =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               financial_wellness =
-                 col_factor(levels = c("1", "2", "3", "4", "5")),
-               health = col_factor(levels = c("1", "2", "3", "4", "5")),
-               day_out = col_factor(levels = c("0", "1", "2", "3")),
-               night_out = col_factor(levels = c("0", "1", "2", "3")),
-               alcohol_or_narcotics =
-                 col_factor(levels = c("0", "1", "2", "3")),
-               mentor = col_factor(levels = c("0", "1")),
-               mentor_meetings = col_factor(levels = c("0", "1", "2", "3")),
-               `Attendance Waiver Granted: 1 = Yes, 0 = No` =
-                 col_factor(levels = c("0", "1")),
-               GRADE = col_factor(levels = c("A", "B", "C", "D", "E"))),
-           locale = locale())
-View(student_performance_dataset)
+```{r Your Second Code Chunk -Code used to load Student Perfomance dataset}
+library(readxl)
+Student_Perfomance_Dataset <- read_excel("data/Student Perfomance Dataset.xlsx")
+View(Student_Perfomance_Dataset)
 ```
 
-```{r Your Second Code Chunk}
-# Fill this with R related code that will be executed when the R markdown file
-# is rendered using knitR
+```{r Your Second Code Chunk Used to check the number of Variables and Rows in the student Perfomance Dataset}
 library(readr)
+dim(Student_Perfomance_Dataset)
 ```
 
 Describe the next code chunk here:
 
-```{r Your Third Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
-# file is rendered using knitR
+```{r Your Third Code Chunk- Used to check the data types of the Variables which can either be Numeric or Character}
 library(readr)
+sapply(Student_Perfomance_Dataset, class)
 ```
 
 ## \<You Can Have a Sub-Title Here\>
 
-```{r Your Fourth Code Chunk}
-# Fill this with other R related code that will be executed when the R markdown
-# file is rendered using knitR
+```{r Your Fourth Code Chunk - used to see the frequency for the variables that are categorical i.e. See the frequency of students that have mentors and those who don't}
+
 library(readr)
+Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$mentor
+cbind(frequency = table(Student_Perfomance_Dataset_freq),
+      percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
+
+Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`
+cbind(frequency = table(Student_Perfomance_Dataset_freq),
+      percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
 ```
 
+
+```{r Your Third Code Chunk- Used to perform the mode, that is the variable that is repeated the most in Mentor "0" is the mode meaning most students do not have mentors}
+library(readr)
+Student_Perfomance_Dataset_mode <- names(table(Student_Perfomance_Dataset$mentor))[
+  which(table(Student_Perfomance_Dataset$mentor) == max(table(Student_Perfomance_Dataset$mentor)))
+]
+print(Student_Perfomance_Dataset_mode)
+
+Student_Perfomance_Dataset_mode <- names(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`))[
+  which(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`) == max(table(Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`)))
+]
+print(Student_Perfomance_Dataset_mode)
+
+```
+
+
+```{r Your Third Code Chunk- Used to calculate the distribution of each variable that is Median, mean , 1st Quartile,3rd Quartile}
+library(readr)
+summary(Student_Perfomance_Dataset)
+```
+
+
+```{r Your Third Code Chunk- Used to calculate the the standard deviation for variables that data type are numeric}
+library(readr)
+
+numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
+standard_deviations <- sapply(numeric_columns, sd)
+print(standard_deviations)
+```
+
+```{r Your Third Code Chunk- Used to calculate the variance of each variable}
+library(readr)
+numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
+variances <- sapply(numeric_columns, var)
+print(variances)
+
+```
 **etc.** as per the lab submission requirements.
