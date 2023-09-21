@@ -282,39 +282,30 @@ print(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset_mode)
 summary(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset)
 
 
-### STEP 10. Measure the standard deviation of each variable ----
-# Measuring the variability in the dataset is important because the amount of
-# variability determines how well you can generalize results from the sample
-# dataset to a new observation in the population.
+# Step 10. Measure the standard deviation of each numeric variable while excluding non-numeric columns (factors and strings)
 
-# Low variability is ideal because it means that you can better predict
-# information about the population based on sample data. High variability means
-# that the values are less consistent, thus making it harder to make
-# predictions.
+# Filter out the numeric columns
+numeric_columns <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset[, sapply(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset, is.numeric)]
 
-# The format “dataset[rows, columns]” can be used to specify the exact rows and
-# columns to be considered. “dataset[, columns]” implies all rows will be
-# considered. Specifying “BostonHousing[, -4]” implies all the columns except
-# column number 4. This can also be stated as
-# “BostonHousing[, c(1,2,3,5,6,7,8,9,10,11,12,13,14)]”. This allows us to
-# calculate the standard deviation of only columns that are numeric, thus
-# leaving out the columns termed as “factors” (categorical) or those that have
-# a string data type.
+# Calculate the standard deviation for each numeric column
+standard_deviations <- sapply(numeric_columns, sd)
 
-sapply(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset[, -2, -1, -4, -5, -3, -6, -7, -8, -9, -10, -11, -12, -13, -14, -15, -16, -17, -18, -19, -20, -21, -22, -23,-24,-25,-26,-27,-28, -29, -30, -31, -32, -33, -36, -37, -38, -39, -40, -41, -42, -43, -44, -45, -46, -47, -48, -49, -50], sd)
+# Display the standard deviations
+print(standard_deviations)
 
-
-# The data type of "yield" should be double (not numeric) so that it can be
-# calculated.
-sapply(crop_dataset[, 4], sd)
-sapply(iris_dataset[, 1:4], sd)
-sapply(PimaIndiansDiabetes[, 1:8], sd)
 
 ### STEP 11. Measure the variance of each variable ----
-sapply(BostonHousing[, -4], var)
-sapply(crop_dataset[, 4], var)
-sapply(iris_dataset[, 1:4], var)
-sapply(PimaIndiansDiabetes[, 1:8], var)
+
+
+# Filter out the numeric columns
+numeric_columns <- X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset[, sapply(X20230412_20230719_BI1_BBIT4_1_StudentPerformanceDataset_dataset, is.numeric)]
+
+# Calculate the variance for each numeric column
+variances <- sapply(numeric_columns, var)
+
+# Display the variances
+print(variances)
+
 
 ### STEP 12. Measure the kurtosis of each variable ----
 # The Kurtosis informs you of how often outliers occur in the results.
