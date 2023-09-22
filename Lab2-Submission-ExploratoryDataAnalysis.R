@@ -454,7 +454,7 @@ barplot(table(iris_dataset[, 5]), main = names(iris_dataset)[5])
 
 # Execute the following to create a bar plot for attribute number 9
 # (diabetes – “pos” - had diabetes and “neg” - did not have diabetes) in the
-# “PimaIndiansDiabetes” dataset:
+
 
 barplot(table(PimaIndiansDiabetes[, 9]), main = names(PimaIndiansDiabetes)[9])
 
