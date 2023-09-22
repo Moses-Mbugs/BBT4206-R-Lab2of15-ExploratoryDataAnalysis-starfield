@@ -385,95 +385,29 @@ summary(Student_Perfomance_Dataset_one_way_anova)
 # Histograms help in determining whether an attribute has a Gaussian
 # distribution. They can also be used to identify the presence of outliers.
 
-# Execute the following code to create histograms for the “BostonHousing”
-# dataset:
-par(mfrow = c(1, 3))
-for (i in 1:3) {
-  hist(BostonHousing[, i], main = names(BostonHousing)[i])
-}
-hist(BostonHousing[, 5], main = names(BostonHousing)[5])
-hist(BostonHousing[, 6], main = names(BostonHousing)[6])
-hist(BostonHousing[, 7], main = names(BostonHousing)[7])
-hist(BostonHousing[, 8], main = names(BostonHousing)[8])
-hist(BostonHousing[, 9], main = names(BostonHousing)[9])
-hist(BostonHousing[, 10], main = names(BostonHousing)[10])
-hist(BostonHousing[, 11], main = names(BostonHousing)[11])
-hist(BostonHousing[, 12], main = names(BostonHousing)[12])
-hist(BostonHousing[, 13], main = names(BostonHousing)[13])
-hist(BostonHousing[, 14], main = names(BostonHousing)[14])
 
-# Execute the following code to create one histogram for attribute 4 (the only
-# numeric column was “final crop yield (in bushels per acre)”) in the
-# “crop_dataset” dataset:
-# The code below converts column number 4 into unlisted and numeric data first
-# so that a histogram can be plotted. Further reading:
-# https://www.programmingr.com/r-error-messages/x-must-be-numeric-error-in-r-histogram/ ) # nolint
-crop_dataset_yield <- as.numeric(unlist(crop_dataset[, 4]))
-hist(crop_dataset_yield, main = names(crop_dataset)[4])
+# Set the layout for the histograms
+par(mfrow = c(1, ncol(Student_Perfomance_Dataset)))
 
-# Execute the following code to create histograms for attribute 1 to 4 of the
-# “iris_dataset” dataset:
-par(mfrow = c(1, 4))
-for (i in 1:4) {
-  hist(iris_dataset[, i], main = names(iris_dataset)[i])
-}
-
-# Execute the following code to create histograms for the “PimaIndiansDiabetes”
-# dataset:
-
-par(mfrow = c(1, 8))
-for (i in 1:8) {
-  hist(PimaIndiansDiabetes[, i], main = names(PimaIndiansDiabetes)[i])
+# Loop through each numeric column and create a histogram
+for (i in 1:ncol(Student_Perfomance_Dataset)) {
+  if (is.numeric(Student_Perfomance_Dataset[, i])) {
+    hist(Student_Perfomance_Dataset[, i], main = names(Student_Perfomance_Dataset)[i])
+  }
 }
 
 ### STEP 18. Create Box and Whisker Plots for Each Numeric Attribute ----
 # Box and whisker plots are useful in understanding the distribution of data.
 # Further reading: https://www.scribbr.com/statistics/interquartile-range/
 
-# Execute the following code to create box and whisker plots for the
-# “BostonHousing” dataset:
-# This considers the first 3 attributes which are numeric. The fourth attribute
-# in the dataset is of the type “factor”, i.e., categorical.
-
+# Create box and whisker plots for numeric attributes
 par(mfrow = c(1, 3))
-for (i in 1:3) {
-  boxplot(BostonHousing[, i], main = names(BostonHousing)[i])
-}
+numeric_cols <- sapply(Student_Perfomance_Dataset, is.numeric)
 
-# This considers the 5th to the 14th attributes which are numeric.
-# The fourth attribute in the dataset is of the type “factor”, i.e., categorical
-
-boxplot(BostonHousing[, 5], main = names(BostonHousing)[5])
-boxplot(BostonHousing[, 6], main = names(BostonHousing)[6])
-boxplot(BostonHousing[, 7], main = names(BostonHousing)[7])
-boxplot(BostonHousing[, 8], main = names(BostonHousing)[8])
-boxplot(BostonHousing[, 9], main = names(BostonHousing)[9])
-boxplot(BostonHousing[, 10], main = names(BostonHousing)[10])
-boxplot(BostonHousing[, 11], main = names(BostonHousing)[11])
-boxplot(BostonHousing[, 12], main = names(BostonHousing)[12])
-boxplot(BostonHousing[, 13], main = names(BostonHousing)[13])
-boxplot(BostonHousing[, 14], main = names(BostonHousing)[14])
-
-boxplot(crop_dataset[, 4], main = names(crop_dataset)[4])
-# If the line above results in an error, execute the code below to convert
-# column number 4 into unlisted and numeric data first.
-# Further reading:
-# https://www.programmingr.com/r-error-messages/x-must-be-numeric-error-in-r-histogram/ # nolint
-crop_dataset_yield <- as.numeric(unlist(crop_dataset[, 4]))
-boxplot(crop_dataset_yield, main = names(crop_dataset)[4])
-
-# Execute the following code to create box and whisker plots for attribute
-# 1 to 4 of the “iris_dataset” dataset:
-par(mfrow = c(1, 4))
-for (i in 1:4) {
-  boxplot(iris_dataset[, i], main = names(iris_dataset)[i])
-}
-
-# Execute the following code to create histograms for the “PimaIndiansDiabetes”
-# dataset:
-par(mfrow = c(1, 8))
-for (i in 1:8) {
-  boxplot(PimaIndiansDiabetes[, i], main = names(PimaIndiansDiabetes)[i])
+for (i in 1:ncol(Student_Perfomance_Dataset)) {
+  if (numeric_cols[i]) {
+    boxplot(Student_Perfomance_Dataset[, i], main = names(Student_Perfomance_Dataset)[i])
+  }
 }
 
 ### STEP 19. Create Bar Plots for Each Categorical Attribute ----
