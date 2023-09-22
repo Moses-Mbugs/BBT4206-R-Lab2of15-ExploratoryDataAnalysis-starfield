@@ -66,7 +66,8 @@ Describe the code chunk here:
 
 ```{r Your Second Code Chunk -Code used to load Student Perfomance dataset}
 library(readxl)
-Student_Perfomance_Dataset <- read_excel("data/Student Perfomance Dataset.xlsx")
+Student_Perfomance_Dataset <- readxl::read_excel("data/Student Perfomance Dataset.xlsx")
+
 View(Student_Perfomance_Dataset)
 ```
 
@@ -84,9 +85,8 @@ sapply(Student_Perfomance_Dataset, class)
 
 ## \<You Can Have a Sub-Title Here\>
 
-```{r Your Fourth Code Chunk - used to see the frequency for the variables that are categorical i.e. See the frequency of students that have mentors and those who don't}
+```{r Your Fourth Code Chunk - used to see the frequency for the variables that are categorical}
 
-library(readr)
 Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$mentor
 cbind(frequency = table(Student_Perfomance_Dataset_freq),
       percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
@@ -94,8 +94,8 @@ cbind(frequency = table(Student_Perfomance_Dataset_freq),
 Student_Perfomance_Dataset_freq <- Student_Perfomance_Dataset$`Attendance Waiver Granted: 1 = Yes, 0 = No`
 cbind(frequency = table(Student_Perfomance_Dataset_freq),
       percentage = prop.table(table(Student_Perfomance_Dataset_freq)) * 100)
-```
 
+```
 
 ```{r Your Third Code Chunk- Used to perform the mode, that is the variable that is repeated the most in Mentor "0" is the mode meaning most students do not have mentors}
 library(readr)
@@ -111,12 +111,10 @@ print(Student_Perfomance_Dataset_mode)
 
 ```
 
-
 ```{r Your Third Code Chunk- Used to calculate the distribution of each variable that is Median, mean , 1st Quartile,3rd Quartile}
 library(readr)
 summary(Student_Perfomance_Dataset)
 ```
-
 
 ```{r Your Third Code Chunk- Used to calculate the the standard deviation for variables that data type are numeric}
 library(readr)
@@ -126,7 +124,6 @@ standard_deviations <- sapply(numeric_columns, sd)
 print(standard_deviations)
 ```
 
-
 ```{r Your Third Code Chunk- Used to calculate the variance of each variable}
 library(readr)
 numeric_columns <- Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]
@@ -134,7 +131,6 @@ variances <- sapply(numeric_columns, var)
 print(variances)
 
 ```
-
 
 ```{r code chunk - Used to install kurosis packages and calculate Kurotis}
 if (!is.element("e1071", installed.packages()[, 1])) {
@@ -145,23 +141,19 @@ require("e1071")
 sapply(Student_Perfomance_Dataset[, 26],  kurtosis, type = 2)
 ```
 
-
 ```{r code chunk - Used to calculate skweness}
 sapply(Student_Perfomance_Dataset[, 26],  skewness, type = 2)
 ```
-
 
 ```{r code chunk - Used to calculate covarinace}
 Student_Perfomance_Dataset_cov <- cov(Student_Perfomance_Dataset[, -27])
 View(Student_Perfomance_Dataset_cov)
 ```
 
-
 ```{r code chunk - Used to calculate correlation}
 Student_Perfomance_Dataset_cor <- cor(Student_Perfomance_Dataset [, c(1, 23, 26)])
 View(Student_Perfomance_Dataset)
 ```
-
 
 ```{r code chunk - Used to calculate One-way ANOVA}
 Student_Perfomance_Dataset_one_way_anova <- aov(gender ~ GRADE, data = Student_Perfomance_Dataset)

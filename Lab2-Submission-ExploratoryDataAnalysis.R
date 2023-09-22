@@ -415,48 +415,26 @@ for (i in 1:ncol(Student_Perfomance_Dataset)) {
 # bar chart to give an idea of the proportion of instances that belong to each
 # category.
 
-# Execute the following to create a bar plot for the categorical attribute 4
-# (“chas” - Charles River dummy variable (= 1 if tract bounds river;
-# 0 otherwise)) in the “BostonHousing” dataset:
+# Reduce the plot margins
+par(mar = c(3, 3, 2, 1))  # Adjust the values as needed (bottom, left, top, right)
 
-barplot(table(BostonHousing[, 4]), main = names(BostonHousing)[4])
+# Create box and whisker plots
+numeric_vars <- sapply(Student_Perfomance_Dataset, is.numeric)
+numeric_data <- Student_Perfomance_Dataset[, numeric_vars]
 
-# The features (attributes) in the “crop_dataset” dataset are:
-# 1.	density: planting density (1 = low density, 2 = high density)
-# 2.	block: planting location in the field (blocks 1, 2, 3, or 4)
-# 3.	fertilizer: fertilizer type (type 1, 2, or 3)
-# 4.	final crop yield (in bushels per acre)
+# Specify the number of columns in the layout
+num_cols <- 3
 
-# Execute the following to create a bar plot for the categorical attributes
-# 1 to 3 in the “crop_dataset” dataset:
-
-par(mfrow = c(1, 3))
-for (i in 1:3) {
-  barplot(table(crop_dataset[, i]), main = names(crop_dataset)[i])
+# Create box and whisker plots
+par(mfrow = c(ceiling(ncol(numeric_data) / num_cols), num_cols))
+for (i in 1:ncol(numeric_data)) {
+  boxplot(numeric_data[, i], main = names(numeric_data)[i])
 }
 
-# The attributes in the “iris_dataset” dataset are:
-# 1.	sepal length in cm
-# 2.	sepal width in cm
-# 3.	petal length in cm
-# 4.	petal width in cm
-# 5.	class:
-##   a.	Iris-Setosa
-##   b.	Iris-Versicolour
-##   c.	Iris-Virginica
-# 1-4 are the Predictor (Independent) Variables
-# 5 is the Target (Dependent) Variable
-
-# Execute the following to create a bar plot for the categorical attribute 5
-# (class) in the “iris_dataset” dataset:
-
-barplot(table(iris_dataset[, 5]), main = names(iris_dataset)[5])
-
-# Execute the following to create a bar plot for attribute number 9
-# (diabetes – “pos” - had diabetes and “neg” - did not have diabetes) in the
+# Reset the layout
+par(mfrow = c(1, 1))
 
 
-barplot(table(PimaIndiansDiabetes[, 9]), main = names(PimaIndiansDiabetes)[9])
 
 ### STEP 20. Create a Missingness Map to Identify Missing Data ----
 # Some machine learning algorithms cannot handle missing data. A missingness
@@ -469,24 +447,13 @@ barplot(table(PimaIndiansDiabetes[, 9]), main = names(PimaIndiansDiabetes)[9])
 # “Amelia” package.
 
 # Execute the following to create a map to identify the missing data in each
-# dataset:
+
 if (!is.element("Amelia", installed.packages()[, 1])) {
   install.packages("Amelia", dependencies = TRUE)
 }
 require("Amelia")
 
-missmap(BostonHousing, col = c("red", "grey"), legend = TRUE)
-missmap(crop_dataset, col = c("red", "grey"), legend = TRUE)
-missmap(iris_dataset, col = c("red", "grey"), legend = TRUE)
-missmap(PimaIndiansDiabetes, col = c("red", "grey"), legend = TRUE)
-
-# As shown in the results, the 4 datasets that were loaded in this lab have no
-# missing data. We can load a 5th dataset called “Soybean” found in the
-# “mlbench” package for an example of a dataset that has missing data. Execute
-# the following for an example of a dataset that has missing data:
-data(Soybean)
-View(Soybean)
-missmap(Soybean, col = c("red", "grey"), legend = TRUE)
+missmap(Student_Perfomance_Dataset, col = c("red", "grey"), legend = TRUE)
 
 ## Multivariate Plots ----
 
@@ -497,45 +464,36 @@ missmap(Soybean, col = c("red", "grey"), legend = TRUE)
 # larger the correlation. Blue represents a positive correlation whereas red
 # represents a negative correlation.
 
-# Execute the following to create correlation plots for 3 of the datasets
-# loaded in STEP 2 to STEP 4:
+# Install and load the necessary packages
 if (!is.element("corrplot", installed.packages()[, 1])) {
   install.packages("corrplot", dependencies = TRUE)
 }
-require("corrplot")
-corrplot(cor(BostonHousing[, -4]), method = "circle")
-corrplot(cor(iris_dataset[, 1:4]), method = "circle")
-corrplot(cor(PimaIndiansDiabetes[, 1:8]), method = "circle")
-
-# The reason why the “crop_dataset” dataset has no correlation plot is because
-# it does not have at least 2 numeric attributes to compare.
-
-# Alternatively, the 'ggcorrplot::ggcorrplot()' function can be used to plot a
-# more visually appealing plot.
-# The code below shows how to install a package in R:
 if (!is.element("ggcorrplot", installed.packages()[, 1])) {
   install.packages("ggcorrplot", dependencies = TRUE)
 }
-require("ggcorrplot")
-ggcorrplot(cor(BostonHousing[, -4]))
-ggcorrplot(cor(iris_dataset[, 1:4]))
-ggcorrplot(cor(PimaIndiansDiabetes[, 1:8]))
+library(corrplot)
+library(ggcorrplot)
+
+# Create correlation plots for your datasets
+
+# Using corrplot
+corrplot(cor(Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]), method = "circle")
+
+# Using ggcorrplot for a visually appealing plot
+ggcorrplot(cor(Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]))
+
 
 ### STEP 22. Create a Scatter Plot ----
-pairs(BostonHousing)
-pairs(block ~ ., data = crop_dataset, col = crop_dataset$block)
-pairs(density ~ ., data = crop_dataset, col = crop_dataset$density)
-pairs(fertilizer ~ ., data = crop_dataset, col = crop_dataset$fertilizer)
-pairs(V5 ~ ., data = iris_dataset, col = iris_dataset$V5)
-pairs(diabetes ~ ., data = PimaIndiansDiabetes,
-      col = PimaIndiansDiabetes$diabetes)
 
-# Alternatively, the ggcorrplot package can be used to make the plots more
-# appealing:
-ggplot(PimaIndiansDiabetes,
-       aes(x = age, y = pregnant, shape = diabetes, color = diabetes)) +
-  geom_point() +
-  geom_smooth(method = lm)
+if (!is.element("ggplot2", installed.packages()[, 1])) {
+  install.packages("ggplot2", dependencies = TRUE)
+}
+library(ggplot2)
+
+ggplot(Student_Perfomance_Dataset, aes(x = `Absenteeism Percentage`, y = GRADE)) +
+  geom_point() + geom_smooth(method = lm)
+
+
 
 ### STEP 23. Create Multivariate Box and Whisker Plots by Class ----
 # This applies to datasets where the target (dependent) variable is categorical.
@@ -544,9 +502,10 @@ if (!is.element("caret", installed.packages()[, 1])) {
   install.packages("caret", dependencies = TRUE)
 }
 require("caret")
-featurePlot(x = iris_dataset[, 1:4], y = iris_dataset[, 5], plot = "box")
-featurePlot(x = PimaIndiansDiabetes[, 1:8], y = PimaIndiansDiabetes[, 9],
-            plot = "box")
+
+featurePlot(x = Student_Perfomance_Dataset[, 23], y = Student_Perfomance_Dataset[, 26], plot = "box")
+
+
 
 # **Deinitialization: Create a snapshot of the R environment ----
 # Lastly, as a follow-up to the initialization step, record the packages
