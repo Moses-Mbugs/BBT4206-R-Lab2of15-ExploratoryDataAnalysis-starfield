@@ -211,6 +211,8 @@ ggplot(Student_Perfomance_Dataset, aes(x = GRADE)) +
   labs(title = "Grade Distribution", x = "GRADE", y = "Count") +
   theme_minimal()
 
+
+
 ```
 
 ```{r code chunk - Used to create a Missingness Map to Identify Missing Dat - step 20}
