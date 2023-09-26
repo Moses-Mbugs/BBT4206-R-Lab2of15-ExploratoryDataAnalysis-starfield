@@ -415,25 +415,23 @@ for (i in 1:ncol(Student_Perfomance_Dataset)) {
 # bar chart to give an idea of the proportion of instances that belong to each
 # category.
 
-# Reduce the plot margins
-par(mar = c(3, 3, 2, 1))  # Adjust the values as needed (bottom, left, top, right)
-
-# Create box and whisker plots
-numeric_vars <- sapply(Student_Perfomance_Dataset, is.numeric)
-numeric_data <- Student_Perfomance_Dataset[, numeric_vars]
-
-# Specify the number of columns in the layout
-num_cols <- 3
-
-# Create box and whisker plots
-par(mfrow = c(ceiling(ncol(numeric_data) / num_cols), num_cols))
-for (i in 1:ncol(numeric_data)) {
-  boxplot(numeric_data[, i], main = names(numeric_data)[i])
+# Load necessary libraries (if not already loaded)
+if (!require(ggplot2)) {
+  install.packages("ggplot2")
+  library(ggplot2)
 }
 
-# Reset the layout
-par(mfrow = c(1, 1))
+# Create a bar plot for "Absenteeism_percentage"
+ggplot(Student_Perfomance_Dataset, aes(x = factor(round(`Absenteeism Percentage`, 2)))) +
+  geom_bar() +
+  labs(title = "Absenteeism Percentage", x = "Percentage", y = "Count") +
+  theme_minimal()
 
+# Create a bar plot for "Grade"
+ggplot(Student_Perfomance_Dataset, aes(x = GRADE)) +
+  geom_bar() +
+  labs(title = "Grade Distribution", x = "GRADE", y = "Count") +
+  theme_minimal()
 
 
 ### STEP 20. Create a Missingness Map to Identify Missing Data ----

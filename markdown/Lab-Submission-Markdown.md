@@ -74,19 +74,17 @@ here <https://yihui.org/knitr/options/>.
 
 Describe the code chunk here:
 
-``` r
-library(readxl)
-Student_Perfomance_Dataset <- readxl::read_excel("data/Student Perfomance Dataset.xlsx")
+\`\`\`{library(readxl)} Student_Perfomance_Dataset \<-
+readxl::read_excel(“data/Student Perfomance Dataset.xlsx”)
 
 View(Student_Perfomance_Dataset)
-```
 
-``` r
-library(readr)
-dim(Student_Perfomance_Dataset)
-```
 
-    ## [1] 101  27
+
+    ```r
+    # Load the dataset from an Excel file
+    library(readxl)
+    Student_Perfomance_Dataset <- read_excel("data/Student Perfomance Dataset.xlsx")
 
 Describe the next code chunk here:
 
@@ -489,3 +487,145 @@ summary(Student_Perfomance_Dataset_one_way_anova)
     ## Residuals   96  21.82  0.2273                 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+# Set the layout for the histograms
+par(mfrow = c(1, ncol(Student_Perfomance_Dataset)))
+
+# Loop through each numeric column and create a histogram
+for (i in 1:ncol(Student_Perfomance_Dataset)) {
+    if (is.numeric(Student_Perfomance_Dataset[, i])) {
+        hist(Student_Perfomance_Dataset[, i], main = names(Student_Perfomance_Dataset)[i])
+    }
+}
+```
+
+``` r
+# Create box and whisker plots for numeric attributes
+par(mfrow = c(1, 3))
+numeric_cols <- sapply(Student_Perfomance_Dataset, is.numeric)
+
+for (i in 1:ncol(Student_Perfomance_Dataset)) {
+    if (numeric_cols[i]) {
+        boxplot(Student_Perfomance_Dataset[, i], main = names(Student_Perfomance_Dataset)[i])
+    }
+}
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-1.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-2.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-3.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-4.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-5.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-6.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-7.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-8.png)<!-- -->![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Box%20and%20Whisker%20Plots%20-%20step%2018-9.png)<!-- -->
+
+``` r
+# Load necessary libraries (if not already loaded)
+if (!require(ggplot2)) {
+    install.packages("ggplot2")
+    library(ggplot2)
+}
+```
+
+    ## Loading required package: ggplot2
+
+``` r
+# Create a bar plot for 'Absenteeism_percentage'
+ggplot(Student_Perfomance_Dataset, aes(x = factor(round(`Absenteeism Percentage`,
+    2)))) + geom_bar() + labs(title = "Absenteeism Percentage", x = "Percentage",
+    y = "Count") + theme_minimal()
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Bar%20Plots%20for%20Each%20Categorical%20Attribute%20-%20step%2019-1.png)<!-- -->
+
+``` r
+# Create a bar plot for 'Grade'
+ggplot(Student_Perfomance_Dataset, aes(x = GRADE)) + geom_bar() + labs(title = "Grade Distribution",
+    x = "GRADE", y = "Count") + theme_minimal()
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20Bar%20Plots%20for%20Each%20Categorical%20Attribute%20-%20step%2019-2.png)<!-- -->
+
+``` r
+if (!is.element("Amelia", installed.packages()[, 1])) {
+    install.packages("Amelia", dependencies = TRUE)
+}
+require("Amelia")
+```
+
+    ## Loading required package: Amelia
+
+    ## Loading required package: Rcpp
+
+    ## ## 
+    ## ## Amelia II: Multiple Imputation
+    ## ## (Version 1.8.1, built: 2022-11-18)
+    ## ## Copyright (C) 2005-2023 James Honaker, Gary King and Matthew Blackwell
+    ## ## Refer to http://gking.harvard.edu/amelia/ for more information
+    ## ##
+
+``` r
+missmap(Student_Perfomance_Dataset, col = c("red", "grey"), legend = TRUE)
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20a%20Missingness%20Map%20to%20Identify%20Missing%20Dat%20-%20step%2020-1.png)<!-- -->
+
+``` r
+# Install and load the necessary packages
+if (!is.element("corrplot", installed.packages()[, 1])) {
+    install.packages("corrplot", dependencies = TRUE)
+}
+if (!is.element("ggcorrplot", installed.packages()[, 1])) {
+    install.packages("ggcorrplot", dependencies = TRUE)
+}
+library(corrplot)
+```
+
+    ## corrplot 0.92 loaded
+
+``` r
+library(ggcorrplot)
+
+# Create correlation plots for your datasets
+
+# Using corrplot
+corrplot(cor(Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]),
+    method = "circle")
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20a%20Correlation%20Plot-%20step%2021-1.png)<!-- -->
+
+``` r
+# Using ggcorrplot for a visually appealing plot
+ggcorrplot(cor(Student_Perfomance_Dataset[, sapply(Student_Perfomance_Dataset, is.numeric)]))
+```
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20a%20Correlation%20Plot-%20step%2021-2.png)<!-- -->
+
+``` r
+if (!is.element("ggplot2", installed.packages()[, 1])) {
+    install.packages("ggplot2", dependencies = TRUE)
+}
+library(ggplot2)
+
+ggplot(Student_Perfomance_Dataset, aes(x = `Absenteeism Percentage`, y = GRADE)) +
+    geom_point() + geom_smooth(method = lm)
+```
+
+    ## `geom_smooth()` using formula = 'y ~ x'
+
+![](Lab-Submission-Markdown_files/figure-gfm/code%20chunk%20-%20Used%20to%20create%20a%20scatter%20plot%20-%20step%2022-1.png)<!-- -->
+
+``` r
+# Execute the following code:
+if (!is.element("caret", installed.packages()[, 1])) {
+    install.packages("caret", dependencies = TRUE)
+}
+require("caret")
+```
+
+    ## Loading required package: caret
+
+    ## Loading required package: lattice
+
+``` r
+featurePlot(x = Student_Perfomance_Dataset[, 23], y = Student_Perfomance_Dataset[,
+    26], plot = "box")
+```
+
+    ## NULL
