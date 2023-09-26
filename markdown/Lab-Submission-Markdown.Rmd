@@ -75,8 +75,9 @@ View(Student_Perfomance_Dataset)
 ```
 
 ```{r Your Second Code Chunk Used to check the number of Variables and Rows in the student Perfomance Dataset}
-library(readr)
-dim(Student_Perfomance_Dataset)
+# Load the dataset from an Excel file
+library(readxl)
+Student_Perfomance_Dataset <- read_excel("data/Student Perfomance Dataset.xlsx")
 ```
 
 Describe the next code chunk here:
